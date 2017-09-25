@@ -1,0 +1,111 @@
+/*@import url('https://fonts.googleapis.com/css?family=Six+Caps');*/
+@import url('https://fonts.googleapis.com/css?family=Jockey+One');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #000;
+}
+
+.logo {
+  width: 100px;
+}
+
+.logo:hover {
+  transform: scaleX(-1);
+}
+
+.logo-svg {
+  fill: #fff;
+}
+
+.splashscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: rgba(0,0,0,.8);
+  text-align: center;
+  opacity: 1;
+  visibility: visible;
+  transition-property: opacity, visibility;
+  transition-duration: 1s;
+  /*transition: opacity 1s ease-out, visibility 1s ease-out;*/
+  display: none;
+}
+
+.splashscreen.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.splashscreen__title {
+  /*width: 1000px;
+  height: 200px;
+  line-height: 200px;
+  text-align: center;*/
+  font-family: 'Jockey One';
+  font-size: 200px;
+  color: #fff;
+  user-select: none;
+  cursor: default;
+}
+
+.splashscreen__text {
+  color: #fff;
+  margin: 0;
+  font-size: 28px;
+  font-style: italic;
+  font-family: serif;
+  line-height: 1.4;
+  margin-bottom: 44px;
+}
+
+.splashscreen__button {
+  /*width: 200px;*/
+  padding: 0 24px;
+  height: 44px;
+  line-height: 44px;
+  color: #fff;
+  background: blue;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.splashscreen__button:hover {
+  background: #0000CC;
+}
+
+.splashscreen__button:active {
+  transform: scale(.98);
+}
+
+@media (min-width: 600px) {
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-image: url(assets/bg.jpg);
+    background-size: cover;
+  }
+}
+
+@media (min-width: 1200px) {
+  .splashscreen {
+    display: flex;
+  }
+}
