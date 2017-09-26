@@ -59,21 +59,13 @@ class App extends Component {
   }
 
   resumeScoring = () => {
-    if (this.state.cache) {
-      const cache = localStorage.getItem('scores');
-      const scores = cache.split('.').map(item => item.split(',').map(Number));
-      this.setState({
-        cache: false,
-        showtime: scores.length !== this.state.rounds,
-        scores
-      });
-    }
+    const cache = localStorage.getItem('scores');
+    const scores = cache.split('.').map(item => item.split(',').map(Number));
+
+    this.setState({ showtime: true, scores });
   }
 
   startScoring = () => {
-    // if (localStorage.getItem('scores')) {
-    //   localStorage.removeItem('scores');
-    // }
     this.setState({ showtime: true });
   }
 
@@ -133,6 +125,7 @@ class App extends Component {
       this.showMessage('To win, knocked out fighter have to avenge his knockdowns.');
     } else {
       const { red, blue } = this.state;
+      // const [ red, blue ] = this.state.round;
       const round = who === 'red' ? [10, blue - 1] : [red - 1, 10];
       this.pushRound(round);
     }
@@ -148,7 +141,7 @@ class App extends Component {
 
   undoRound = () => {
     const scores = this.state.scores.slice(0,-1);
-    const showtime = scores.length !== this.state.rounds;
+    const showtime = this.state.rounds !== scores.length;
 
     localStorage.setItem('scores', scores.join('.'));
 
@@ -158,12 +151,10 @@ class App extends Component {
   pushRound = (round) => {
     window.navigator.vibrate(25);
 
-    const scores = [...this.state.scores];
+    const scores = [...this.state.scores, round];
 
-    if (scores.length >= this.state.rounds) {
+    if (scores.length > this.state.rounds) {
       scores.length = 0;
-    } else {
-      scores.push(round);
     }
 
     localStorage.setItem('scores', scores.join('.'));
@@ -179,14 +170,14 @@ class App extends Component {
 
   knockdown = (side) => {
     const { red, blue, min } = this.state;
-    if (this.state[side] - 1 < min) {
+    if (this.state[side] === min) {
       this.shake(this.target);
     } else {
+      window.navigator.vibrate(50);
       const scores = side === 'red'
       ? { red: red - 1, blue: blue + 1 }
       : { red: red + 1, blue: blue - 1 }
       this.setState(scores);
-      window.navigator.vibrate(50);
     }
   }
 
@@ -203,10 +194,10 @@ class App extends Component {
       this.target.classList.add('shake');
       window.navigator.vibrate([25, 10, 75]);
     } else {
+      window.navigator.vibrate(25);
       scores[index] = [Math.max(min, red), Math.max(min, blue)];
       localStorage.setItem('scores', scores.join('.'));
       this.setState({ scores });
-      window.navigator.vibrate(25);
     }
   }
 
